@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  insights-postgres:
+    image: postgres:16
+    container_name: insights-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: insightsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  node-analytics:
+    build: ./node-analytics
+    container_name: node-analytics
+    restart: always
+    depends_on:
+      - insights-postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@insights-postgres:5432/insightsdb
+    ports:
+      - "4000:4000"
+
+  backend-dotnet:
+    build: ./backend-dotnet
+    container_name: backend-dotnet
+    restart: always
+    depends_on:
+      - insights-postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Host=insights-postgres;Port=5432;Database=insightsdb;Username=postgres;Password=postgres"
+    ports:
+      - "5000:8080"
+
+
+  react-frontend:
+    build: ./frontend-react
+    container_name: react-frontend
+    restart: always
+    depends_on:
+      - backend-dotnet
+      - node-analytics
+    ports:
+      - "5173:80"
+
+volumes:
+  postgres_data:
+

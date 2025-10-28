@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS "DataRecords" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(100),
+    "Amount" NUMERIC,
+    "CreatedAt" TIMESTAMP DEFAULT NOW()
+);
