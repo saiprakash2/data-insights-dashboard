@@ -29,39 +29,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ----- Node Backend -----
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install Node backend dependencies
+      - name: Install backend dependencies
         working-directory: node-analytics
         run: npm install
 
-      - name: Run Node backend tests (skip if none)
+      - name: Run backend tests (skip if none)
         working-directory: node-analytics
         run: echo "No tests yet"
 
-      # ----- .NET Backend -----
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Restore .NET dependencies
-        working-directory: dotnet-backend
-        run: dotnet restore
-
-      - name: Build .NET project
-        working-directory: dotnet-backend
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Run .NET tests (skip if none)
-        working-directory: dotnet-backend
-        run: echo "No tests yet"
-
-      # ----- Frontend -----
       - name: Install frontend dependencies
         working-directory: frontend-react
         run: npm install
@@ -70,11 +50,9 @@ jobs:
         working-directory: frontend-react
         run: npm run build
 
-      # ----- Docker Build & Push -----
       - name: Build Docker images
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/insights-node-backend ./node-analytics
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/insights-dotnet-backend ./dotnet-backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/insights-backend ./node-analytics
           docker build -t ${{ secrets.DOCKER_USERNAME }}/insights-frontend ./frontend-react
 
       - name: Login to Docker Hub
@@ -85,6 +63,5 @@ jobs:
 
       - name: Push Docker images
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/insights-node-backend
-          docker push ${{ secrets.DOCKER_USERNAME }}/insights-dotnet-backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/insights-backend
           docker push ${{ secrets.DOCKER_USERNAME }}/insights-frontend
