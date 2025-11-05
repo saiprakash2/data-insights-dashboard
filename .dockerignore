@@ -1,0 +1,45 @@
+# Node / React
+node_modules
+npm-debug.log
+yarn-error.log
+dist
+build
+
+# .NET
+bin
+obj
+.vs
+*.user
+*.suo
+*.pdb
+*.dll
+*.exe
+
+# Environment and config
+.env
+.env.local
+.env.*.local
+
+# Docker-related
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+*.pid
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Logs and temp
+*.log
+logs/
+tmp/
+*.tmp
+*.bak
+
+# IDE / OS junk
+.DS_Store
+Thumbs.db
+.idea
+.vscode

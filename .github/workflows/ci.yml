@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -56,12 +56,6 @@ jobs:
       - name: Build .NET project
         working-directory: backend-dotnet
         run: dotnet build --configuration Release --no-restore
-
-      - name: Run .NET database migrations
-        working-directory: backend-dotnet
-        env:
-          ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=insightsdb;Username=postgres;Password=postgres"
-        run: dotnet ef database update
 
       - name: Run .NET tests (skip if none)
         working-directory: backend-dotnet
