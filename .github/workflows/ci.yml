@@ -12,7 +12,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -37,7 +37,7 @@ jobs:
 
       - name: Install Node backend dependencies
         working-directory: node-analytics
-        run: npm install
+        run: npm ci
 
       - name: Run Node backend tests (skip if none)
         working-directory: node-analytics
@@ -47,7 +47,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Restore .NET dependencies
         working-directory: backend-dotnet
@@ -57,6 +57,12 @@ jobs:
         working-directory: backend-dotnet
         run: dotnet build --configuration Release --no-restore
 
+      - name: Run .NET database migrations
+        working-directory: backend-dotnet
+        env:
+          ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=insightsdb;Username=postgres;Password=postgres"
+        run: dotnet ef database update
+
       - name: Run .NET tests (skip if none)
         working-directory: backend-dotnet
         run: echo "No tests yet"
@@ -64,7 +70,7 @@ jobs:
       # ----- Frontend -----
       - name: Install frontend dependencies
         working-directory: frontend-react
-        run: npm install
+        run: npm ci
 
       - name: Build frontend
         working-directory: frontend-react

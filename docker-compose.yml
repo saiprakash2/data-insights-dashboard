@@ -12,8 +12,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - insights-net
 
   node-analytics:
     build: ./node-analytics
@@ -23,8 +24,11 @@ services:
       - insights-postgres
     environment:
       DATABASE_URL: postgres://postgres:postgres@insights-postgres:5432/insightsdb
+      PORT: 4000
     ports:
       - "4000:4000"
+    networks:
+      - insights-net
 
   backend-dotnet:
     build: ./backend-dotnet
@@ -33,11 +37,18 @@ services:
     depends_on:
       - insights-postgres
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Development"
       ConnectionStrings__DefaultConnection: "Host=insights-postgres;Port=5432;Database=insightsdb;Username=postgres;Password=postgres"
+      ASPNETCORE_URLS: "http://+:8080"
     ports:
       - "5000:8080"
-
+    networks:
+      - insights-net
+    command: >
+      sh -c "
+        dotnet ef database update &&
+        dotnet backend-dotnet.dll
+      "
 
   react-frontend:
     build: ./frontend-react
@@ -48,7 +59,12 @@ services:
       - node-analytics
     ports:
       - "5173:80"
+    networks:
+      - insights-net
 
 volumes:
   postgres_data:
+
+networks:
+  insights-net:
 

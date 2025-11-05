@@ -1,0 +1,84 @@
+# ---------------------------
+# Node.js
+# ---------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ---------------------------
+# Build Outputs
+# ---------------------------
+dist/
+build/
+out/
+coverage/
+*.cache/
+
+# ---------------------------
+# Environment Files
+# ---------------------------
+.env
+.env.local
+.env.*.local
+
+# ---------------------------
+# .NET / C#
+# ---------------------------
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.swp
+*.dbmdl
+*.bak
+*.tmp
+*.pdb
+
+# ---------------------------
+# React / Vite
+# ---------------------------
+frontend-react/node_modules/
+frontend-react/dist/
+frontend-react/.vite/
+
+# ---------------------------
+# Node Analytics
+# ---------------------------
+node-analytics/node_modules/
+node-analytics/logs/
+node-analytics/debug.log
+
+# ---------------------------
+# Docker
+# ---------------------------
+postgres_data/
+*.pid
+docker-compose.override.yml
+*.tar
+
+# ---------------------------
+# Logs
+# ---------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---------------------------
+# OS / Misc
+# ---------------------------
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+
+# ---------------------------
+# Temporary Files
+# ---------------------------
+*.tmp
+*.temp
+~$*
