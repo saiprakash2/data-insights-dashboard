@@ -22,7 +22,7 @@ function App() {
     getData().then(setRecords);
 
     // 🔹 Fetch analytics summary from Node API
-    fetch("http://localhost:4000/api/summary")
+    fetch("http://34.234.85.99:4000/api/summary")
       .then((res) => res.json())
       .then((data) => setSummary(data))
       .catch((err) => console.error("Error fetching summary:", err));
@@ -35,7 +35,7 @@ function App() {
     setNewRecord({ category: "", amount: 0 });
 
     // 🔄 refresh summary after adding new data
-    fetch("http://localhost:4000/api/summary")
+    fetch("http://34.234.85.99:4000/api/summary")
       .then((res) => res.json())
       .then((data) => setSummary(data));
   };
