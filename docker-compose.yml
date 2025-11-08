@@ -44,11 +44,6 @@ services:
       - "5000:8080"
     networks:
       - insights-net
-    command: >
-      sh -c "
-        dotnet ef database update &&
-        dotnet backend-dotnet.dll
-      "
 
   react-frontend:
     build: ./frontend-react
