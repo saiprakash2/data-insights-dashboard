@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/data";
+const API_URL = "http://34.234.85.99:5000/api/data";
 
 export async function getData() {
   const response = await fetch(API_URL);
