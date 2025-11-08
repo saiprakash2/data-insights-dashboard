@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Inter, sans-serif" }}>
-      <h2>📊 Data Insights Dashboard</h2>
+      <h2>📊 Data Insights</h2>
 
       {/* 🔹 Analytics Summary Section */}
       {summary ? (
