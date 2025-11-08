@@ -22,13 +22,18 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # --- Run stage ---
-# ✅ Use SDK image instead of runtime so EF tools work
 FROM mcr.microsoft.com/dotnet/sdk:9.0
 WORKDIR /app
 COPY --from=build /app/out .
+
+# ✅ Install EF CLI globally
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 EXPOSE 8080
 
-# Run migrations first, then start the app
+# ✅ Run migration before starting the app
 ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet backend-dotnet.dll"]
+
 
 
